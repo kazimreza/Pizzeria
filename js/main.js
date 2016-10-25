@@ -421,15 +421,15 @@ var resizePizzas = function(size) {
 
   changeSliderLabel(size);
 
-  
+  // CHANGES THROUGH LINE 448
   function sizeSwitcher (size) {
     switch(size) {
       case "1":
-        return 0.25;
+        return 0.20;
       case "2":
-        return 0.3333;
+        return 0.30;
       case "3":
-        return 0.5;
+        return 0.45;
       default:
         console.log("bug in sizeSwitcher");
     }
@@ -475,6 +475,7 @@ console.log("Time to generate pizzas on load: " + timeToGenerate[0].duration + "
 
 // Iterator for number of times the pizzas in the background have scrolled.
 // Used by updatePositions() to decide when to log the average time per frame
+
 var frame = 0;
 
 // Logs the average amount of time per 10 frames needed to move the sliding background pizzas on scroll.
@@ -491,7 +492,7 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 // Moves the sliding background pizzas based on scroll position
 
-
+// CHANGES THROUGH LINE 510
 var items;
 
 function updatePositions() {
@@ -503,8 +504,8 @@ function updatePositions() {
     phases.push(Math.sin(topPosition + r));
   }
 
-  for (var i = 0; i < items.length; i++) {
-    items[i].style.left = items[i].basicLeft + 100 * phases[i % 5] + 'px';
+  for (var k = 0; k < items.length; k++) {
+    items[k].style.left = items[k].basicLeft + 100 * phases[k % 5] + 'px';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -527,9 +528,8 @@ document.addEventListener('DOMContentLoaded', function() {
   var pizzasToDisplay = Math.ceil(screen.height / s) * 8
   console.log(pizzasToDisplay);
   var movingPizzas = document.getElementById('movingPizzas1');
-  /* moved the reference above out of the loop below so it only needs to getAdj
-   * initialized once - at page load. Also replace query selector with
-   * getElementById, which is supposed to be faster. */
+  /*  MOVED VAR OUT OF THE LOOP, INITIALIZED ONCE
+      REPLACED querySelector WITH getElementByClass */
 
   for (var i = 0; i < pizzasToDisplay; i++) {
     var elem = document.createElement('img');
@@ -541,8 +541,7 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     movingPizzas.appendChild(elem);
   }
-  /* move the items variable out of the loop above. It's initialized in the
-   * global scope, and then assigned a value once, on page load. */
+  
   items = document.getElementsByClassName('mover');
   updatePositions();
 });
